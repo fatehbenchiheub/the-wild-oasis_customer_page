@@ -1,5 +1,5 @@
 import { eachDayOfInterval } from 'date-fns';
-import { supabase } from '@/app/lib/supabase'; // Adjust path to match your project
+import supabase from './supabase'; // Adjust path to match your project
 
 // Domain models (move these to a shared types file later, e.g. @/types/wildOasis.ts)
 export interface Cabin {
