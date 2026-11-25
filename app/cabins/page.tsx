@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CabinCard from '@/app/components/CabinCard';
+import { getCabins } from '../lib/data-service';
 
 export const metadata: Metadata = {
   title: 'Cabins',
@@ -16,9 +17,11 @@ export interface Cabin {
   // image: string;
 }
 
-export default function Page() {
+export default async function Page() {
   // CHANGE: Annotate empty array so TypeScript knows its element type instead of `never[]`
-  const cabins: Cabin[] = [];
+  //const cabins: Cabin[] = [];
+  const cabins = await getCabins();
+  console.log(cabins);
 
   return (
     <div>
