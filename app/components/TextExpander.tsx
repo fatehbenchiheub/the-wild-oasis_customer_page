@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 
-function TextExpander({ children }) {
+interface TextExpanderProps {
+  children: string;
+}
+
+function TextExpander({ children }: TextExpanderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const displayText = isExpanded ? children : children.split(' ').slice(0, 40).join(' ') + '...';
 
@@ -10,8 +14,9 @@ function TextExpander({ children }) {
     <span>
       {displayText}{' '}
       <button
+        type="button"
         className="text-primary-700 border-b border-primary-700 leading-3 pb-1"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={() => setIsExpanded((prev) => !prev)}
       >
         {isExpanded ? 'Show less' : 'Show more'}
       </button>

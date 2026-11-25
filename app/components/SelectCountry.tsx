@@ -1,5 +1,3 @@
-'use client';
-
 import { getCountries } from '@/app/lib/data-service';
 
 interface SelectCountryProps {

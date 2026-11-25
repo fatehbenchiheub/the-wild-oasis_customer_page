@@ -14,21 +14,16 @@ function isAlreadyBooked(range: DateRange, datesArr: Date[]) {
 }
 
 function DateSelector() {
-  // CHANGE
   const regularPrice = 23;
   const discount = 23;
   const numNights = 23;
   const cabinPrice = 23;
-  const [range, setRange] = useState<DateRange>({
-    from: undefined,
-    to: undefined,
-  });
+  const [range, setRange] = useState<DateRange | undefined>(undefined);
 
-  // SETTINGS
   const minBookingLength = 1;
   const maxBookingLength = 23;
 
-  const resetRange = () => setRange({ from: undefined, to: undefined });
+  const resetRange = () => setRange(undefined);
 
   return (
     <div className="flex flex-col justify-between">
@@ -39,9 +34,9 @@ function DateSelector() {
         onSelect={setRange}
         min={minBookingLength + 1}
         max={maxBookingLength}
-        fromMonth={new Date()}
-        fromDate={new Date()}
-        toYear={new Date().getFullYear() + 5}
+        startMonth={new Date()}
+        endMonth={new Date(new Date().getFullYear() + 5, 11)}
+        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
         captionLayout="dropdown"
         numberOfMonths={2}
       />
@@ -72,8 +67,9 @@ function DateSelector() {
           ) : null}
         </div>
 
-        {range.from || range.to ? (
+        {range?.from || range?.to ? (
           <button
+            type="button"
             className="border border-primary-800 py-2 px-4 text-sm font-semibold"
             onClick={resetRange}
           >

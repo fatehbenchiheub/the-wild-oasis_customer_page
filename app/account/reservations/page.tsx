@@ -1,23 +1,34 @@
-import type { Metadata } from 'next';
 import ReservationCard from '@/app/components/ReservationCard';
 
-export const metadata: Metadata = {
-  title: 'Reservations',
-};
+export interface Cabin {
+  id: number;
+  name: string;
+  maxCapacity: number;
+  regularPrice: number;
+  discount: number;
+  image: string;
+  description?: string;
+}
 
-// Define the shape of a booking (later you can move this to a shared types file, e.g. @/types/booking.ts)
 export interface Booking {
-  id: string | number;
-  // Add properties here as you connect real booking data, e.g.:
-  // startDate: string;
-  // endDate: string;
-  // numNights: number;
-  // totalPrice: number;
+  id: number;
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  totalPrice: number;
+  guestId: number;
+  cabinId: number;
+  status?: string;
+}
+
+export interface ReservationItem extends Booking {
+  cabins: Pick<Cabin, 'name' | 'image'>;
 }
 
 export default function Page() {
-  // CHANGE: Type the empty array so TypeScript knows what elements `bookings` will hold
-  const bookings: Booking[] = [];
+  const bookings: ReservationItem[] = [];
 
   return (
     <div>
@@ -27,7 +38,7 @@ export default function Page() {
         <p className="text-lg">
           You have no reservations yet. Check out our{' '}
           <a className="underline text-accent-500" href="/cabins">
-            luxury cabins &rarr;
+            luxury cabins →
           </a>
         </p>
       ) : (
