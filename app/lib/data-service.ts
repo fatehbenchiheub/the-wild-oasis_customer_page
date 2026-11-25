@@ -62,12 +62,11 @@ export type NewBooking = Omit<Booking, 'id' | 'created_at'>;
 /////////////
 // GET
 
-export async function getCabin(id: number): Promise<Cabin | null> {
+export async function getCabin(id: number): Promise<Cabin> {
   const { data, error } = await supabase.from('cabins').select('*').eq('id', id).single();
 
   if (error) {
     console.error(error);
-    return null;
   }
 
   return data as Cabin;
