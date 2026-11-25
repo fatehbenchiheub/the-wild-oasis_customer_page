@@ -1,3 +1,5 @@
+'use client';
+
 import Navigation from '@/app/components/Navigation';
 import Logo from '@/app/components/Logo';
 
