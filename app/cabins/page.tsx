@@ -20,7 +20,7 @@ export interface Cabin {
   // image: string;
 }
 
-export default async function Page() {
+export default function Page() {
   // CHANGE: Annotate empty array so TypeScript knows its element type instead of `never[]`
   //const cabins: Cabin[] = [];
 
