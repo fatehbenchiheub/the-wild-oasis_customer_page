@@ -26,9 +26,9 @@ function DateSelector() {
   const resetRange = () => setRange(undefined);
 
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between overflow-x-auto">
       <DayPicker
-        className="pt-12 place-self-center"
+        className="pt-10 pb-6 px-4 place-self-center [&_.rdp-months]:!flex-nowrap [&_.rdp-months]:!flex-row [&_.rdp-months]:!gap-6"
         mode="range"
         selected={range}
         onSelect={setRange}
@@ -41,9 +41,9 @@ function DateSelector() {
         numberOfMonths={2}
       />
 
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">
+      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18 shrink-0">
         <div className="flex items-baseline gap-6">
-          <p className="flex gap-2 items-baseline">
+          <p className="flex gap-2 items-baseline whitespace-nowrap">
             {discount > 0 ? (
               <>
                 <span className="text-2xl">${regularPrice - discount}</span>
@@ -56,10 +56,10 @@ function DateSelector() {
           </p>
           {numNights ? (
             <>
-              <p className="bg-accent-600 px-3 py-2 text-2xl">
+              <p className="bg-accent-600 px-3 py-2 text-2xl whitespace-nowrap">
                 <span>×</span> <span>{numNights}</span>
               </p>
-              <p>
+              <p className="whitespace-nowrap">
                 <span className="text-lg font-bold uppercase">Total</span>{' '}
                 <span className="text-2xl font-semibold">${cabinPrice}</span>
               </p>
@@ -70,7 +70,7 @@ function DateSelector() {
         {range?.from || range?.to ? (
           <button
             type="button"
-            className="border border-primary-800 py-2 px-4 text-sm font-semibold"
+            className="border border-primary-800 py-2 px-4 text-sm font-semibold whitespace-nowrap"
             onClick={resetRange}
           >
             Clear
