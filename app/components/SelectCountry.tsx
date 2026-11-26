@@ -1,9 +1,4 @@
-import { getCountries } from '@/app/lib/data-service';
-
-interface Country {
-  name: string;
-  flag: string;
-}
+import { getCountries, type Country } from '@/app/lib/data-service';
 
 interface SelectCountryProps {
   defaultCountry: string;
@@ -26,7 +21,6 @@ async function SelectCountry({ defaultCountry, name, id, className }: SelectCoun
     <select
       name={name}
       id={id}
-      // Here we use a trick to encode BOTH the country name and the flag into the value. Then we split them up again later in the server action
       defaultValue={selectedCountryName ? `${selectedCountryName}%${flag}` : ''}
       className={className}
     >
