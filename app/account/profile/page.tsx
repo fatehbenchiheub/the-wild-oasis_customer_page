@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   // CHANGE
-  const countryFlag = 'pt.jpg';
+  const countryFlag = '/pt.jpg';
   const nationality = 'portugal';
 
   return (
@@ -40,7 +40,9 @@ export default function Page() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="nationality">Where are you from?</label>
-            <Image src={countryFlag} alt="Country flag" className="h-5 rounded-sm" />
+            <div className="relative h-5 w-8 overflow-hidden rounded-sm">
+              <Image src={countryFlag} fill alt="Country flag" className="object-cover" />
+            </div>
           </div>
 
           <SelectCountry
