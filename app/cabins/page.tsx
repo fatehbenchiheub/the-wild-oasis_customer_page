@@ -2,11 +2,18 @@ import type { Metadata } from 'next';
 import CabinList from '../components/CabinList';
 import { Suspense } from 'react';
 import Spinner from '../components/Spinner';
+import Filter from '../components/Filter';
 
 //export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Cabins',
+};
+
+type CabinsParams = {
+  searchParams: Promise<{
+    capacity: string;
+  }>;
 };
 
 // Define the shape of a cabin (later move to a shared types file, e.g. @/types/cabin.ts)
@@ -20,9 +27,10 @@ export const metadata: Metadata = {
   // image: string;
 } */
 
-export default function Page() {
-  // CHANGE: Annotate empty array so TypeScript knows its element type instead of `never[]`
-  //const cabins: Cabin[] = [];
+export default async function Page({ searchParams }: CabinsParams) {
+  const { capacity } = await searchParams;
+
+  const filter = capacity ?? 'all';
 
   return (
     <div>
@@ -34,8 +42,11 @@ export default function Page() {
         own little home away from home. The perfect spot for a peaceful, calm vacation. Welcome to
         paradise.
       </p>
+      <div className="flex justify-end mb-8">
+        <Filter />
+      </div>
       <Suspense fallback={<Spinner />}>
-        <CabinList />
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
