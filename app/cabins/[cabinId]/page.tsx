@@ -1,3 +1,4 @@
+import TextExpander from '@/app/components/TextExpander';
 import { getCabin, getCabins } from '@/app/lib/data-service';
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
 import { Metadata } from 'next';
@@ -83,7 +84,7 @@ export default async function Page({ params }: CabinIdParams) {
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed text-primary-300 mb-8">
-              {description}
+              <TextExpander>{description}</TextExpander>
             </p>
           </div>
 

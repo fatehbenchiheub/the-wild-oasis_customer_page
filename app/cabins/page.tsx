@@ -1,24 +1,24 @@
 import type { Metadata } from 'next';
-import CabinCard from '@/app/components/CabinCard';
-import { getCabins } from '../lib/data-service';
 import CabinList from '../components/CabinList';
 import { Suspense } from 'react';
 import Spinner from '../components/Spinner';
+
+//export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Cabins',
 };
 
 // Define the shape of a cabin (later move to a shared types file, e.g. @/types/cabin.ts)
-export interface Cabin {
-  id: string | number;
+/* export interface Cabin {
+  // id: string | number;
   // Add fields as you connect data, e.g.:
   // name: string;
   // maxCapacity: number;
   // regularPrice: number;
   // discount: number;
   // image: string;
-}
+} */
 
 export default function Page() {
   // CHANGE: Annotate empty array so TypeScript knows its element type instead of `never[]`

@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface TextExpanderProps {
-  children: string;
+  children: ReactNode;
 }
 
 function TextExpander({ children }: TextExpanderProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const displayText = isExpanded ? children : children.split(' ').slice(0, 40).join(' ') + '...';
+  const text = typeof children === 'string' ? children : '';
+  const words = text.split(' ');
+  const shouldTruncate = words.length > 40;
+
+  const displayText = isExpanded || !shouldTruncate ? text : `${words.slice(0, 40).join(' ')}...`;
 
   return (
     <span>
