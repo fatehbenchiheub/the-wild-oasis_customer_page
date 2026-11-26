@@ -1,3 +1,5 @@
+import DateSelector from '@/app/components/DateSelector';
+import ReservationForm from '@/app/components/ReservationForm';
 import TextExpander from '@/app/components/TextExpander';
 import { getCabin, getCabins } from '@/app/lib/data-service';
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
@@ -113,10 +115,15 @@ export default async function Page({ params }: CabinIdParams) {
       </div>
 
       {/* Booking CTA */}
-      <div className="border-t border-primary-800/70 pt-10 text-center">
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-accent-100">
-          Reserve today. Pay on arrival.
+      <div className="border-t border-primary-800/70 pt-10">
+        <h2 className="text-center text-3xl sm:text-5xl font-semibold tracking-tight text-accent-100">
+          Reserve {name} today. Pay on arrival.
         </h2>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.75fr_1fr] border border-primary-800 mt-10">
+          <DateSelector />
+          <ReservationForm />
+        </div>
       </div>
     </section>
   );
