@@ -1,5 +1,6 @@
 import { eachDayOfInterval } from 'date-fns';
 import supabase from './supabase'; // Adjust path to match your project
+import { cacheLife } from 'next/cache';
 
 // Domain models (move these to a shared types file later, e.g. @/types/wildOasis.ts)
 export interface Cabin {
@@ -184,16 +185,36 @@ export async function getSettings(): Promise<Settings> {
   return data as Settings;
 }
 
-export async function getCountries(): Promise<Country[]> {
+export async function getCountries() {
   try {
-    const res = await fetch('https://restcountries.com/v2/all?fields=name,flag');
-    const countries = (await res.json()) as Country[];
-    return countries;
-  } catch {
+    // Using a highly reliable, no-auth API hosted on Cloudflare
+    const res = await fetch('https://countries-api.davegarvey.workers.dev/countries', {
+      cache: 'no-store',
+      // Add a timeout to prevent hanging requests
+      signal: AbortSignal.timeout(10000), // 10 seconds
+    });
+
+    if (!res.ok) {
+      throw new Error(`Countries request failed: ${res.status} ${res.statusText}`);
+    }
+
+    const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error(`Unexpected countries response: ${JSON.stringify(data)}`);
+    }
+
+    // Map the API's response to our expected { name, flag } structure
+    return data.map((c: { name: string; flag: string }) => ({
+      name: c.name ?? '',
+      flag: c.flag ?? '',
+    }));
+  } catch (err) {
+    console.error(err);
+    // Throwing an error here allows Next.js to handle it gracefully
     throw new Error('Could not fetch countries');
   }
 }
-
 /////////////
 // CREATE
 
