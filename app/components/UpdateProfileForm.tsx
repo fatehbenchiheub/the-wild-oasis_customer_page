@@ -1,6 +1,5 @@
-import React, { Suspense } from 'react';
-import SelectCountry from './SelectCountry';
 import Image from 'next/image';
+import React, { Suspense } from 'react';
 
 interface ProfileFormSelectCountry {
   children: React.ReactNode;

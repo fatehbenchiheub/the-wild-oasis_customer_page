@@ -1,5 +1,3 @@
-'use client';
-
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 
 function SignOutButton() {

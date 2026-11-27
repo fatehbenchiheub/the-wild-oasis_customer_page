@@ -1,5 +1,6 @@
 'use client';
 
+import { User } from 'next-auth';
 import { useReservation } from './ReservationContext';
 interface Cabin {
   id: number;
@@ -13,9 +14,15 @@ interface Cabin {
 
 type ReservationFormProps = {
   cabin: Cabin;
+  /*user: {
+    name: string;
+    email: string;
+    image: string;
+  };*/
+  user: User;
 };
 
-function ReservationForm({ cabin }: ReservationFormProps) {
+function ReservationForm({ cabin, user }: ReservationFormProps) {
   const { range } = useReservation();
   const { maxCapacity } = cabin;
 
@@ -23,11 +30,21 @@ function ReservationForm({ cabin }: ReservationFormProps) {
     <div className="scale-[1.01]">
       <div className="bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center">
         <p>Logged in as</p>
+        <div className="flex gap-4 items-center">
+          <img
+            // Important to display google profile images
+            referrerPolicy="no-referrer"
+            className="h-8 rounded-full"
+            src={user.image}
+            alt={user.name}
+          />
+          <p>{user.name}</p>
+        </div>
       </div>
 
-      <p>
+      {/*<p>
         {String(range?.from)} to {String(range?.to)}
-      </p>
+      </p>*/}
 
       {/* Changed px-16 to px-10 for better spacing */}
       <form className="bg-primary-900 py-10 px-10 text-lg flex gap-5 flex-col">
