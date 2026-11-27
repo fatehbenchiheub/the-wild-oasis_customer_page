@@ -1,5 +1,4 @@
-import DateSelector from '@/app/components/DateSelector';
-import ReservationForm from '@/app/components/ReservationForm';
+import Reservation from '@/app/components/Reservation';
 import TextExpander from '@/app/components/TextExpander';
 import { getCabin, getCabins } from '@/app/lib/data-service';
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
@@ -49,7 +48,7 @@ export default async function Page({ params }: CabinIdParams) {
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 bg-primary-900/35 border border-primary-800/80 rounded-2xl p-5 sm:p-8 mb-16 shadow-xl">
         {/* Image */}
-        <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] lg:col-span-5 rounded-xl overflow-hidden border border-primary-800/60">
+        <div className="relative min-h-70 sm:min-h-90 lg:min-h-110 lg:col-span-5 rounded-xl overflow-hidden border border-primary-800/60">
           <Image
             src={image}
             fill
@@ -120,10 +119,7 @@ export default async function Page({ params }: CabinIdParams) {
           Reserve {name} today. Pay on arrival.
         </h2>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.75fr_1fr] border border-primary-800 mt-10">
-          <DateSelector />
-          <ReservationForm />
-        </div>
+        <Reservation cabin={cabin} />
       </div>
     </section>
   );
