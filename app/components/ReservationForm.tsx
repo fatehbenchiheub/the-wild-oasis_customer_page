@@ -1,8 +1,20 @@
 'use client';
 
-function ReservationForm() {
+interface Cabin {
+  cabin: {
+    id: number;
+    name: string;
+    maxCapacity: number;
+    regularPrice: number;
+    discount: number;
+    image: string;
+    description?: string;
+  };
+}
+
+function ReservationForm({ cabin }: Cabin) {
   // CHANGE
-  const maxCapacity = 23;
+  const { maxCapacity } = cabin;
 
   return (
     <div className="flex flex-col justify-between bg-primary-900">
