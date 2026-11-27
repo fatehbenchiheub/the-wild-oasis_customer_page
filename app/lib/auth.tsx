@@ -1,7 +1,7 @@
-import NextAuth, { type NextAuthConfig } from 'next-auth';
+import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 
-const authConfig: NextAuthConfig = {
+const authConfig = {
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -10,21 +10,17 @@ const authConfig: NextAuthConfig = {
   ],
   callbacks: {
     authorized({ auth, request }) {
-      // `auth` is inferred as Session | null
-      // `request` is inferred as NextAuthRequest (extends NextRequest)
-      const isLoggedIn = !!auth?.user;
-      const { pathname } = request.nextUrl;
-
-      if (pathname.startsWith('/dashboard')) {
-        return isLoggedIn;
-      }
-
-      return true;
+      return !!auth?.user;
     },
+  },
+  pages: {
+    signIn: '/login',
   },
 };
 
 export const {
   auth,
+  signIn,
+  signOut,
   handlers: { GET, POST },
 } = NextAuth(authConfig);
