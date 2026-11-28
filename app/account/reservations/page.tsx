@@ -1,4 +1,7 @@
 import ReservationCard from '@/app/components/ReservationCard';
+import { auth } from '@/app/lib/auth';
+import { getBookings } from '@/app/lib/data-service';
+import Link from 'next/link';
 
 export interface Cabin {
   id: number;
@@ -23,12 +26,14 @@ export interface Booking {
   status?: string;
 }
 
-export interface ReservationItem extends Booking {
+/*export interface ReservationItem extends Booking {
   cabins: Pick<Cabin, 'name' | 'image'>;
-}
+}*/
 
-export default function Page() {
-  const bookings: ReservationItem[] = [];
+export default async function Page() {
+  // const bookings: ReservationItem[] = [];
+  const session = await auth();
+  const bookings = await getBookings(Number(session?.user?.guestId));
 
   return (
     <div>
@@ -37,9 +42,9 @@ export default function Page() {
       {bookings.length === 0 ? (
         <p className="text-lg">
           You have no reservations yet. Check out our{' '}
-          <a className="underline text-accent-500" href="/cabins">
+          <Link className="underline text-accent-500" href="/cabins">
             luxury cabins →
-          </a>
+          </Link>
         </p>
       ) : (
         <ul className="space-y-6">
