@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export interface ReservationItem {
-  id: number | string;
+  id: number;
   guestId?: number | string;
   startDate: string;
   endDate: string;

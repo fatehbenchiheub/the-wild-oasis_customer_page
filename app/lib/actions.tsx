@@ -4,6 +4,7 @@ import { auth, signIn, signOut } from './auth';
 // import { updateGuest as updateGuestDb } from '@/app/lib/data-service'; // Import your DB function
 import { revalidatePath } from 'next/cache';
 import supabase from './supabase';
+import { getBookings } from './data-service';
 
 export async function updateGuest(formData: FormData) {
   // 1. Authenticate the user
@@ -48,6 +49,26 @@ export async function updateGuest(formData: FormData) {
 
   // 7. Revalidate the cache so the new data shows up immediately
   revalidatePath('/account/profile');
+}
+
+export async function deleteReservation(bookingId: number) {
+  const session = await auth();
+  if (!session) throw new Error('You MUST be logged in');
+
+  const guestBookings = await getBookings(Number(session?.user?.guestId));
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+  if (!guestBookingIds.includes(bookingId))
+    throw new Error('You are not allowed to delete this booking!');
+
+  const { error } = await supabase.from('bookings').delete().eq('id', bookingId);
+
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be deleted');
+  }
+
+  revalidatePath('/account/reservations');
 }
 
 export async function signInAction() {
