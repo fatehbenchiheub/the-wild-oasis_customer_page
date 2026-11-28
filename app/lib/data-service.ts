@@ -102,7 +102,7 @@ export const getCabins = async function (): Promise<Cabin[]> {
 };
 
 // Guests are uniquely identified by their email address
-export async function getGuest(email: string): Promise<Guest | null> {
+export async function getGuest(email: string | null | undefined): Promise<Guest | null> {
   const { data, error } = await supabase.from('guests').select('*').eq('email', email).single();
 
   // No error here! We handle the possibility of no guest in the sign in callback
@@ -186,11 +186,9 @@ export async function getSettings(): Promise<Settings> {
 
 export async function getCountries() {
   try {
-    // Using a highly reliable, no-auth API hosted on Cloudflare
     const res = await fetch('https://countries-api.davegarvey.workers.dev/countries', {
       cache: 'no-store',
-      // Add a timeout to prevent hanging requests
-      signal: AbortSignal.timeout(10000), // 10 seconds
+      signal: AbortSignal.timeout(10000),
     });
 
     if (!res.ok) {
@@ -203,14 +201,28 @@ export async function getCountries() {
       throw new Error(`Unexpected countries response: ${JSON.stringify(data)}`);
     }
 
-    // Map the API's response to our expected { name, flag } structure
-    return data.map((c: { name: string; flag: string }) => ({
-      name: c.name ?? '',
-      flag: c.flag ?? '',
-    }));
+    return data.map((c: { name: string; flag: string }) => {
+      // 1. We safely convert the emoji to a 2-letter ISO code (e.g., "dz")
+      let isoCode = '';
+      if (c.flag) {
+        isoCode = [...c.flag] // Spread operator handles the emoji correctly
+          .map((char) => {
+            const codePoint = char.codePointAt(0);
+            // Subtract the Unicode offset to get the standard A-Z letter
+            return codePoint ? String.fromCharCode(codePoint - 127397) : '';
+          })
+          .join('')
+          .toLowerCase();
+      }
+
+      // 2. Now we build the correct URL using the "dz" code
+      return {
+        name: c.name ?? '',
+        flag: isoCode ? `https://flagcdn.com/${isoCode}.svg` : '',
+      };
+    });
   } catch (err) {
     console.error(err);
-    // Throwing an error here allows Next.js to handle it gracefully
     throw new Error('Could not fetch countries');
   }
 }
