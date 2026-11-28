@@ -1,7 +1,8 @@
 import { getCountries, type Country } from '@/app/lib/data-service';
+//import { auth } from '../lib/auth';
 
 interface SelectCountryProps {
-  defaultCountry: string;
+  defaultCountry: string | null | undefined;
   name: string;
   id: string;
   className?: string;
@@ -9,10 +10,12 @@ interface SelectCountryProps {
 
 async function SelectCountry({ defaultCountry, name, id, className }: SelectCountryProps) {
   const rawCountries = await getCountries();
+  //const session = await auth();
+
   const countries: Country[] = Array.isArray(rawCountries) ? rawCountries : [];
 
   const matchedCountry = countries.find(
-    (country) => country.name.toLowerCase() === defaultCountry.toLowerCase(),
+    (country) => country.name.toLowerCase() === defaultCountry?.toLowerCase(),
   );
   const flag = matchedCountry?.flag ?? '';
   const selectedCountryName = matchedCountry?.name ?? defaultCountry;
